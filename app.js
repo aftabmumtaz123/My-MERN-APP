@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 require("dotenv").config();
@@ -15,11 +14,9 @@ const brainTreeRouter = require("./routes/braintree");
 const orderRouter = require("./routes/orders");
 const usersRouter = require("./routes/users");
 const customizeRouter = require("./routes/customize");
-// Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
 const CreateAllFolder = require("./config/uploadFolderCreateScript");
 
-/* Create All Uploads Folder if not exists | For Uploading Images */
 CreateAllFolder();
 
 // Database Connection
@@ -29,12 +26,8 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then(() =>
-    console.log(
-      "==============Mongodb Database Connected Successfully=============="
-    )
-  )
-  .catch((err) => console.log("Database Not Connected !!!"));
+  .then(() => console.log("MongoDB Connected Successfully"))
+  .catch((err) => console.log("Database Connection Error:", err));
 
 // Middleware
 app.use(morgan("dev"));
@@ -53,6 +46,7 @@ app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
 
+<<<<<<< HEAD
 app.get('/',(req,res)=>{
   res.send("<h1>I am running</h1>")
 })
@@ -61,4 +55,11 @@ app.get('/',(req,res)=>{
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log("Server is running on ", PORT);
+=======
+app.get('', (req, res) => {
+  res.send("<h1>I am running</h1>");
+>>>>>>> aaa81a9 (Fix server structure for Vercel deployment)
 });
+
+// ⚡ Important: EXPORT app, don't listen
+module.exports = app;
