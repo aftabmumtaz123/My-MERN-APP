@@ -46,19 +46,8 @@ app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
 
-<<<<<<< HEAD
-app.get('/',(req,res)=>{
-  res.send("<h1>I am running</h1>")
-})
-
-// Run Server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log("Server is running on ", PORT);
-=======
 app.get('', (req, res) => {
   res.send("<h1>I am running</h1>");
->>>>>>> aaa81a9 (Fix server structure for Vercel deployment)
 });
 
 // ⚡ Important: EXPORT app, don't listen
