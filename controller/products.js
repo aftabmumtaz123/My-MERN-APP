@@ -44,7 +44,7 @@ class Product {
   async postAddProduct(req, res) {
     let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } =
       req.body;
-    let images = req.files;
+    let images = req.files || [];
     // Validation
     if (
       !pName |
@@ -66,8 +66,8 @@ class Product {
       });
     }
     // Validate Images
-    else if (images.length !== 2) {
-      Product.deleteImages(images, "file");
+    else if (!images || images.length !== 2) {
+      if (images) Product.deleteImages(images, "file");
       return res.json({ error: "Must need to provide 2 images" });
     } else {
       try {
