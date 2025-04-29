@@ -16,45 +16,43 @@ class Category {
 
   async postAddCategory(req, res) {
     let { cName, cDescription, cStatus } = req.body;
-    let cImage = req.file.filename;
+    let cImage = req.file?.filename;
     const filePath = `../server/public/uploads/categories/${cImage}`;
-
+  
     if (!cName || !cDescription || !cStatus || !cImage) {
       fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-        }
-        return res.json({ error: "All filled must be required" });
+        if (err) console.log(err);
       });
-    } else {
-      cName = toTitleCase(cName);
-      try {
-        let checkCategoryExists = await categoryModel.findOne({ cName: cName });
-        if (checkCategoryExists) {
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.log(err);
-            }
-            return res.json({ error: "Category already exists" });
-          });
-        } else {
-          let newCategory = new categoryModel({
-            cName,
-            cDescription,
-            cStatus,
-            cImage,
-          });
-          await newCategory.save((err) => {
-            if (!err) {
-              return res.json({ success: "Category created successfully" });
-            }
-          });
-        }
-      } catch (err) {
-        console.log(err);
+      return res.json({ error: "All fields must be required" });
+    }
+  
+    cName = toTitleCase(cName);
+  
+    try {
+      let checkCategoryExists = await categoryModel.findOne({ cName });
+      if (checkCategoryExists) {
+        fs.unlink(filePath, (err) => {
+          if (err) console.log(err);
+        });
+        return res.json({ error: "Category already exists" });
       }
+  
+      const newCategory = new categoryModel({
+        cName,
+        cDescription,
+        cStatus,
+        cImage,
+      });
+  
+      await newCategory.save(); // ✅ No callback needed
+      return res.json({ success: "Category created successfully" });
+      
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Server error", details: err.message });
     }
   }
+  
 
   async postEditCategory(req, res) {
     let { cId, cDescription, cStatus } = req.body;
