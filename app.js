@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-require("dotenv").config();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -21,7 +21,7 @@ CreateAllFolder();
 
 // Database Connection
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(process.env.DATABASE || "mongodb+srv://aftabmumtaz123:afdfS123@cluster0.6guq3.mongodb.net", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
