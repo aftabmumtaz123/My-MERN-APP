@@ -21,10 +21,9 @@ CreateAllFolder();
 
 // Database Connection
 mongoose
-  .connect(process.env.DATABASE || "mongodb+srv://aftabmumtaz123:afdfS123@cluster0.6guq3.mongodb.net", {
+  .connect("mongodb+srv://aftabmumtaz123:afdfS123@cluster0.6guq3.mongodb.net", {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
+    useUnifiedTopology: true
   })
   .then(() => console.log("MongoDB Connected Successfully"))
   .catch((err) => console.log("Database Connection Error:", err));
@@ -51,4 +50,7 @@ app.get('', (req, res) => {
 });
 
 // ⚡ Important: EXPORT app, don't listen
-module.exports = app;
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log("Server is running on ", PORT);
+});
